@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myapplication.adapters.MessagesAdapter;
 import com.example.myapplication.databinding.ActivityViewMessagesBinding;
+import com.example.myapplication.models.Message;
+import com.example.myapplication.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +44,9 @@ public class ViewMessages extends AppCompatActivity {
         binding.chattingWith.setText(friendName);
 
         binding.send.setOnClickListener(view -> {
+            if (binding.typeMessage.getText().toString().isEmpty()) {
+                return;
+            }
             FirebaseDatabase.getInstance().getReference("Message/" + roomId).push().setValue(
                     new Message(
                             FirebaseAuth.getInstance().getCurrentUser().getEmail(),
